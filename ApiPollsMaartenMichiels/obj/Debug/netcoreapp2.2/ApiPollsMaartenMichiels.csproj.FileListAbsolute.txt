@@ -1,0 +1,14 @@
+D:\AngularProjecten\ApiPollsMaartenMichiels\ApiPollsMaartenMichiels\bin\Debug\netcoreapp2.2\ApiPollsMaartenMichiels.deps.json
+D:\AngularProjecten\ApiPollsMaartenMichiels\ApiPollsMaartenMichiels\bin\Debug\netcoreapp2.2\ApiPollsMaartenMichiels.runtimeconfig.json
+D:\AngularProjecten\ApiPollsMaartenMichiels\ApiPollsMaartenMichiels\bin\Debug\netcoreapp2.2\ApiPollsMaartenMichiels.runtimeconfig.dev.json
+D:\AngularProjecten\ApiPollsMaartenMichiels\ApiPollsMaartenMichiels\bin\Debug\netcoreapp2.2\ApiPollsMaartenMichiels.dll
+D:\AngularProjecten\ApiPollsMaartenMichiels\ApiPollsMaartenMichiels\bin\Debug\netcoreapp2.2\ApiPollsMaartenMichiels.pdb
+D:\AngularProjecten\ApiPollsMaartenMichiels\ApiPollsMaartenMichiels\obj\Debug\netcoreapp2.2\ApiPollsMaartenMichiels.csprojAssemblyReference.cache
+D:\AngularProjecten\ApiPollsMaartenMichiels\ApiPollsMaartenMichiels\obj\Debug\netcoreapp2.2\ApiPollsMaartenMichiels.csproj.CoreCompileInputs.cache
+D:\AngularProjecten\ApiPollsMaartenMichiels\ApiPollsMaartenMichiels\obj\Debug\netcoreapp2.2\ApiPollsMaartenMichiels.RazorAssemblyInfo.cache
+D:\AngularProjecten\ApiPollsMaartenMichiels\ApiPollsMaartenMichiels\obj\Debug\netcoreapp2.2\ApiPollsMaartenMichiels.RazorAssemblyInfo.cs
+D:\AngularProjecten\ApiPollsMaartenMichiels\ApiPollsMaartenMichiels\obj\Debug\netcoreapp2.2\ApiPollsMaartenMichiels.AssemblyInfoInputs.cache
+D:\AngularProjecten\ApiPollsMaartenMichiels\ApiPollsMaartenMichiels\obj\Debug\netcoreapp2.2\ApiPollsMaartenMichiels.AssemblyInfo.cs
+D:\AngularProjecten\ApiPollsMaartenMichiels\ApiPollsMaartenMichiels\obj\Debug\netcoreapp2.2\ApiPollsMaartenMichiels.RazorTargetAssemblyInfo.cache
+D:\AngularProjecten\ApiPollsMaartenMichiels\ApiPollsMaartenMichiels\obj\Debug\netcoreapp2.2\ApiPollsMaartenMichiels.dll
+D:\AngularProjecten\ApiPollsMaartenMichiels\ApiPollsMaartenMichiels\obj\Debug\netcoreapp2.2\ApiPollsMaartenMichiels.pdb
