@@ -30,6 +30,10 @@ namespace ApiPollsMaartenMichiels
         {
             services.AddDbContext<GebruikerContex>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info { Title = "MNM API", Version = "v1" }); });
+
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder => { builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); }));
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
         }
@@ -47,6 +51,10 @@ namespace ApiPollsMaartenMichiels
                 app.UseHsts();
             }
 
+
+            app.UseCors("MyPolicy");
+            app.UseSwagger();
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "ApiPollsMaartenMichiels v1"); });
             app.UseHttpsRedirection();
             app.UseMvc();
 
