@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,8 +8,8 @@ namespace ApiPollsMaartenMichiels.Models
 {
     public class Stem
     {
-        long StemID { get; set; }
-        long PollOptieID { get; set; }
-        long GebruikerID { get; set; }
+        public long StemID { get; set; }
+        public long PollOptieID { get; set; }
+        public long GebruikerID { get; set; }
     }
 }

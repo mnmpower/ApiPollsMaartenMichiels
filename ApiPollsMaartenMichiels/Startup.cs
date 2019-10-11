@@ -10,6 +10,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ApiPollsMaartenMichiels.Models;
+using Microsoft.EntityFrameworkCore;
+using ApiPollsMaartenMichiels.Data;
 
 namespace ApiPollsMaartenMichiels
 {
@@ -25,11 +28,14 @@ namespace ApiPollsMaartenMichiels
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<GebruikerContex>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, GebruikerContex context)
         {
             if (env.IsDevelopment())
             {
@@ -43,6 +49,8 @@ namespace ApiPollsMaartenMichiels
 
             app.UseHttpsRedirection();
             app.UseMvc();
+
+            DBInitializer.Initialize(context);
         }
     }
 }

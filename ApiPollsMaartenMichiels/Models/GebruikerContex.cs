@@ -14,7 +14,7 @@ namespace ApiPollsMaartenMichiels.Models
         public DbSet<Poll> polls { get; set; }
         public DbSet<PollGebruiker> PollGebruikers { get; set; }
         public DbSet<PollOptie> PollOpties { get; set; }
-        public DbSet<Stem> Stemen { get; set; }
+        public DbSet<Stem> Stemmen { get; set; }
         public DbSet<Vriend> Vrienden { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
