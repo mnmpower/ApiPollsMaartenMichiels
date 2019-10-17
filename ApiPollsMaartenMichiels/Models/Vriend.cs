@@ -8,7 +8,8 @@ namespace ApiPollsMaartenMichiels.Models
     public class Vriend
     {
         public long VriendID { get; set; }
-        public long Gebruiker1ID { get; set; }
-        public long Gebruiker2ID { get; set; }
+        public long VerzenderID { get; set; }
+        public long OntvangerID { get; set; }
+        public Boolean Bevestigd { get; set; }
     }
 }

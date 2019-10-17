@@ -13,6 +13,12 @@ using Microsoft.Extensions.Options;
 using ApiPollsMaartenMichiels.Models;
 using Microsoft.EntityFrameworkCore;
 using ApiPollsMaartenMichiels.Data;
+using ApiPollsMaartenMichiels.Helpers;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using ApiPollsMaartenMichiels.Services;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace ApiPollsMaartenMichiels
 {
@@ -30,11 +36,51 @@ namespace ApiPollsMaartenMichiels
         {
             services.AddDbContext<GebruikerContex>(opt => opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info { Title = "MNM API", Version = "v1" }); });
+            services.AddSwaggerGen(c => {
+                c.SwaggerDoc("v1", new Swashbuckle.AspNetCore.Swagger.Info { Title = "MNM API", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new ApiKeyScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    In = "header",
+                    Type = "apiKey"
+                });
+                c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
+                {
+                    {"Bearer", Enumerable.Empty<string>() },
+                });
+            });
 
             services.AddCors(o => o.AddPolicy("MyPolicy", builder => { builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); }));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
+
+            //configure jwt authentication
+            var appSettings = appSettingsSection.Get<AppSettings>();
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+
+            // configure DI for application services
+            services.AddScoped<IUserService, UserService>();
 
         }
 
@@ -56,6 +102,7 @@ namespace ApiPollsMaartenMichiels
             app.UseSwagger();
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "ApiPollsMaartenMichiels v1"); });
             app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseMvc();
 
             DBInitializer.Initialize(context);

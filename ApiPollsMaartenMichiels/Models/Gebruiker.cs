@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,5 +14,7 @@ namespace ApiPollsMaartenMichiels.Models
         public String Email { get; set; }
         public String Wachtwoord { get; set; }
         public String Gebruikersnaam { get; set; }
+        [NotMapped]
+        public string Token { get; set; }
     }
 }

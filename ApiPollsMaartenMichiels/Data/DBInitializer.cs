@@ -68,10 +68,10 @@ namespace ApiPollsMaartenMichiels.Data
                 );
 
             context.Vrienden.AddRange(
-                new Vriend { Gebruiker1ID = 1, Gebruiker2ID = 2 },
-                new Vriend { Gebruiker1ID = 1, Gebruiker2ID = 3 },
-                new Vriend { Gebruiker1ID = 2, Gebruiker2ID = 3 },
-                new Vriend { Gebruiker1ID = 1, Gebruiker2ID = 4 }
+                new Vriend { VerzenderID = 1, OntvangerID = 2, Bevestigd = true },
+                new Vriend { VerzenderID = 1, OntvangerID = 3, Bevestigd = true },
+                new Vriend { VerzenderID = 2, OntvangerID = 3, Bevestigd = false },
+                new Vriend { VerzenderID = 1, OntvangerID = 4, Bevestigd = false }
                 );
 
             context.SaveChanges();

@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ApiPollsMaartenMichiels.Models;
+using ApiPollsMaartenMichiels.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ApiPollsMaartenMichiels.Controllers
 {
@@ -14,16 +16,30 @@ namespace ApiPollsMaartenMichiels.Controllers
     public class GebruikerController : ControllerBase
     {
         private readonly GebruikerContex _context;
+        private IUserService _userService;
 
-        public GebruikerController(GebruikerContex context)
+        public GebruikerController(GebruikerContex context, IUserService userService)
         {
             _context = context;
+            _userService = userService;
+        }
+
+        [HttpPost("authenticate")]
+        public IActionResult Authenticate([FromBody] Gebruiker userParam)
+        {
+            var gebruiker = _userService.Authenticate(userParam.Email, userParam.Wachtwoord);
+            if (gebruiker == null)
+                return BadRequest(new { message = "Username or password is incorrect" });
+
+            return Ok(gebruiker);
         }
 
         // GET: api/Gebruiker
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Gebruiker>>> GetGebruikers()
         {
+            var gebruikerID = User.Claims.FirstOrDefault(c => c.Type == "GebruikerID").Value;
             return await _context.Gebruikers.ToListAsync();
         }
 
@@ -97,9 +113,22 @@ namespace ApiPollsMaartenMichiels.Controllers
             return gebruiker;
         }
 
-        private bool GebruikerExists(long id)
-        {
-            return _context.Gebruikers.Any(e => e.GebruikerID == id);
-        }
+       // GET: api/Gebruiker/IngelogdeGebruiker/aaa @aaa
+       //[HttpGet("IngelogdeGebruiker/{Email}")]
+       // public async Task<ActionResult<Gebruiker>> GetIngelogdeGebruiker(String Email)
+       // {
+       //     var gebruiker = await _context.Gebruikers.FirstOrDefaultAsync(g => g.Email == Email);
+       //     if (gebruiker == null)
+       //     {
+       //         return NotFound();
+       //     }
+
+       //     return gebruiker;
+       // }
+
+       // private bool GebruikerExists(long id)
+       // {
+       //     return _context.Gebruikers.Any(e => e.GebruikerID == id);
+       // }
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ApiPollsMaartenMichiels.Models;
+using System.Collections;
 
 namespace ApiPollsMaartenMichiels.Controllers
 {
@@ -96,6 +97,35 @@ namespace ApiPollsMaartenMichiels.Controllers
 
             return vriend;
         }
+
+        // GET: api/Vriend/GetVriendschapsverzoekIn/5
+        [HttpGet("GetVriendschapsverzoekIn/{id}")]
+        public async Task<ActionResult<IEnumerable<Vriend>>> GetVriendschapsverzoekIn(long id)
+        {
+            var VriendschapsverzoekenIn = from v in _context.Vrienden.Where(v => v.Bevestigd == false && v.OntvangerID == id) select v;
+
+            if (VriendschapsverzoekenIn == null)
+            {
+                return NotFound();
+            }
+
+            return await VriendschapsverzoekenIn.ToListAsync();
+        }
+
+        // GET: api/Vriend/GetVriendschapsverzoekUit/5
+        [HttpGet("GetVriendschapsverzoekUit/{id}")]
+        public async Task<ActionResult<IEnumerable<Vriend>>> GetVriendschapsverzoekUit(long id)
+        {
+            var VriendschapsverzoekenUit = from v in _context.Vrienden.Where(v => v.Bevestigd == false && v.VerzenderID == id) select v;
+
+            if (VriendschapsverzoekenUit == null)
+            {
+                return NotFound();
+            }
+
+            return await VriendschapsverzoekenUit.ToListAsync();
+        }
+
 
         private bool VriendExists(long id)
         {
