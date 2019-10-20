@@ -102,8 +102,12 @@ namespace ApiPollsMaartenMichiels.Controllers
         [HttpGet("GetVriendschapsverzoekIn/{id}")]
         public async Task<ActionResult<IEnumerable<Vriend>>> GetVriendschapsverzoekIn(long id)
         {
-            var VriendschapsverzoekenIn = from v in _context.Vrienden.Where(v => v.Bevestigd == false && v.OntvangerID == id) select v;
-
+            //var userID = User.Claims.FirstOrDefault(c => c.Type == "UserID").Value;
+            //return await _context.Members.ToListAsync();
+            var VriendschapsverzoekenIn = from a in _context.Vrienden.Where(v => v.Bevestigd == false && v.OntvangerID == id)
+                                            .Include(v => v.Verzender)
+                                            .Include(d => d.Ontvanger)
+                                           select a;
             if (VriendschapsverzoekenIn == null)
             {
                 return NotFound();
@@ -116,7 +120,10 @@ namespace ApiPollsMaartenMichiels.Controllers
         [HttpGet("GetVriendschapsverzoekUit/{id}")]
         public async Task<ActionResult<IEnumerable<Vriend>>> GetVriendschapsverzoekUit(long id)
         {
-            var VriendschapsverzoekenUit = from v in _context.Vrienden.Where(v => v.Bevestigd == false && v.VerzenderID == id) select v;
+           
+            var VriendschapsverzoekenUit = from a in _context.Vrienden.Where(v => v.Bevestigd == false && v.VerzenderID == id)
+                                           .Include(v =>v.Verzender)
+                                           .Include(d=>d.Ontvanger) select a;
 
             if (VriendschapsverzoekenUit == null)
             {
@@ -124,6 +131,39 @@ namespace ApiPollsMaartenMichiels.Controllers
             }
 
             return await VriendschapsverzoekenUit.ToListAsync();
+        }
+
+        // GET: api/Vriend/GetAllVrienden/5
+        [HttpGet("GetAllVrienden/{id}")]
+        public async Task<ActionResult<IEnumerable<Vriend>>> GetAllVrienden(long id)
+        {
+
+            var Vrienden = from a in _context.Vrienden.Where(v => v.Bevestigd == true && (v.VerzenderID == id || v.OntvangerID == id))
+                                           .Include(v => v.Verzender)
+                                           .Include(d => d.Ontvanger)
+                                           select a;
+
+            if (Vrienden == null)
+            {
+                return NotFound();
+            }
+
+            return await Vrienden.ToListAsync();
+        }
+
+        // GET: api/Vriend/CheckCombo/5
+        [HttpGet("CheckCombo/{id}")]
+        public Boolean CheckCombo(long id, long id2)
+        {
+
+            var Vrienden = from v in _context.Vrienden.Where(v => v.VerzenderID == id).Where(v => v.OntvangerID == id2) select v;
+            
+            if (Vrienden.Count() ==  1)
+            {
+                return true;
+            }
+
+            return false;
         }
 
 

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ApiPollsMaartenMichiels.Models;
 using ApiPollsMaartenMichiels.Services;
 using Microsoft.AspNetCore.Authorization;
+using System.Collections;
 
 namespace ApiPollsMaartenMichiels.Controllers
 {
@@ -113,22 +114,60 @@ namespace ApiPollsMaartenMichiels.Controllers
             return gebruiker;
         }
 
-       // GET: api/Gebruiker/IngelogdeGebruiker/aaa @aaa
-       //[HttpGet("IngelogdeGebruiker/{Email}")]
-       // public async Task<ActionResult<Gebruiker>> GetIngelogdeGebruiker(String Email)
-       // {
-       //     var gebruiker = await _context.Gebruikers.FirstOrDefaultAsync(g => g.Email == Email);
-       //     if (gebruiker == null)
-       //     {
-       //         return NotFound();
-       //     }
+        //// GET: api/Gebruiker/IngelogdeGebruiker/aaa@aaa
+        //[HttpGet("IngelogdeGebruiker/{Email}")]
+        //public async Task<ActionResult<Gebruiker>> GetIngelogdeGebruiker(String Email)
+        //{
+        //    var gebruiker = await _context.Gebruikers.FirstOrDefaultAsync(g => g.Email == Email);
+        //    if (gebruiker == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-       //     return gebruiker;
-       // }
+        //    return gebruiker;
+        //}
 
-       // private bool GebruikerExists(long id)
-       // {
-       //     return _context.Gebruikers.Any(e => e.GebruikerID == id);
-       // }
+        // GET: api/Vriend/ZoekVrienden/mnmpower
+        [HttpGet("ZoekGebruikers/{zoekstring}")]
+        public async Task<ActionResult<IEnumerable<Gebruiker>>> ZoekGebruikers(string zoekstring, long zoekerID)
+        {
+
+            var alleGebruikers = from a in _context.Gebruikers.Where(g => g.Gebruikersnaam.Contains(zoekstring)) select a;
+            //var alleVrienden = _context.Vrienden.ToList();
+            //var lijstTeReturning = new List<Gebruiker>();
+            
+            //foreach (var g in alleGebruikers)
+            //{
+            //    Vriend check = new Vriend();
+            //    check.OntvangerID = zoekerID;
+            //    check.VerzenderID = g.GebruikerID;
+            //    check.Bevestigd = true;
+
+            //    if (!alleVrienden.Contains(check))
+            //    {
+            //        Vriend check2 = new Vriend();
+            //        check2.OntvangerID = g.GebruikerID;
+            //        check2.VerzenderID = zoekerID;
+            //        check2.Bevestigd = true;
+            //        if (!alleVrienden.Contains(check2))
+            //        {
+            //            lijstTeReturning.Add(g);
+            //        }
+            //    }
+            //}
+
+
+
+
+            alleGebruikers = alleGebruikers.Where(a => a.GebruikerID != zoekerID);
+            //lijstTeReturning = lijstTeReturning.Where(g => g.GebruikerID != zoekerID).ToList();
+
+            return await alleGebruikers.ToListAsync();
+        }
+
+        private bool GebruikerExists(long id)
+        {
+            return _context.Gebruikers.Any(e => e.GebruikerID == id);
+        }
     }
 }

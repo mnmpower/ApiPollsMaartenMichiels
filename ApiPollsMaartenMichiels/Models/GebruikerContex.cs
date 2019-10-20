@@ -19,7 +19,8 @@ namespace ApiPollsMaartenMichiels.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Gebruiker>().ToTable("Gebruiker");
+            modelBuilder.Entity<Gebruiker>().ToTable("Gebruiker").HasMany(g => g.vriendenlijstOnvangen).WithOne(v => v.Ontvanger);
+            modelBuilder.Entity<Gebruiker>().ToTable("Gebruiker").HasMany(g => g.vriendenlijstVerzonden).WithOne(v => v.Verzender);
             modelBuilder.Entity<Poll>().ToTable("Poll");
             modelBuilder.Entity<PollGebruiker>().ToTable("PollGebruiker");
             modelBuilder.Entity<PollOptie>().ToTable("PollOptie");

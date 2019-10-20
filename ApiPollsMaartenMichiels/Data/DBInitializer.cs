@@ -12,7 +12,7 @@ namespace ApiPollsMaartenMichiels.Data
         public static void Initialize(GebruikerContex context)
         {
             context.Database.EnsureCreated();
-            // Look for any verkiezingen.
+            // Look for any Gebruikers.
             if (context.Gebruikers.Any())
             {
                 return;
@@ -20,9 +20,9 @@ namespace ApiPollsMaartenMichiels.Data
             }
 
             context.Gebruikers.AddRange(
-                new Gebruiker { Voornaam="Maarten", Naam="Michiels",
-                            Email ="r0695495@student.thomasmore.be",
-                            Gebruikersnaam ="mnmpower", Wachtwoord="R1234-56"},
+                new Gebruiker { Voornaam = "Maarten", Naam = "Michiels",
+                    Email = "r0695495@student.thomasmore.be",
+                    Gebruikersnaam = "mnmpower", Wachtwoord = "R1234-56"},
 
                 new Gebruiker { Voornaam="Sacha", Naam="Rypens",
                             Email ="r0655332@student.thomasmore.be",
