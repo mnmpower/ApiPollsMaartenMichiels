@@ -11,5 +11,10 @@ namespace ApiPollsMaartenMichiels.Models
         public long StemID { get; set; }
         public long PollOptieID { get; set; }
         public long GebruikerID { get; set; }
+
+
+        public virtual PollOptie PollOptie { get; set; }
+        public virtual Gebruiker Gebruiker { get; set; }
     }
+
 }

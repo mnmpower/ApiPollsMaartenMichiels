@@ -36,7 +36,7 @@ namespace ApiPollsMaartenMichiels.Data
                             Gebruikersnaam ="benji", Wachtwoord="R1234-56"}
                 );
 
-            context.polls.AddRange(
+            context.Polls.AddRange(
                 new Poll { naam = "Favoriete eten" },
                 new Poll { naam = "Favoriete drinken" }
                 );
@@ -50,28 +50,29 @@ namespace ApiPollsMaartenMichiels.Data
                 );
 
             context.PollGebruikers.AddRange(
-                new PollGebruiker { PollID = 1, GebruikerID = 1 },
-                new PollGebruiker { PollID = 1, GebruikerID = 2 },
-                new PollGebruiker { PollID = 1, GebruikerID = 3 },
-                new PollGebruiker { PollID = 2, GebruikerID = 1 },
-                new PollGebruiker { PollID = 2, GebruikerID = 3 },
-                new PollGebruiker { PollID = 2, GebruikerID = 4 }
+                new PollGebruiker { PollID = 1, GebruikerID = 1, Beheerder = true },
+                new PollGebruiker { PollID = 1, GebruikerID = 2, Beheerder = false },
+                new PollGebruiker { PollID = 1, GebruikerID = 3, Beheerder = true },
+                new PollGebruiker { PollID = 2, GebruikerID = 1, Beheerder = false },
+                new PollGebruiker { PollID = 2, GebruikerID = 3, Beheerder = false },
+                new PollGebruiker { PollID = 2, GebruikerID = 4, Beheerder = true }
                 );
 
-            context.Stemmen.AddRange(
-                new Stem { GebruikerID = 1, PollOptieID = 2 },
-                new Stem { GebruikerID = 1, PollOptieID = 4 },
-                new Stem { GebruikerID = 2, PollOptieID = 2 },
-                new Stem { GebruikerID = 3, PollOptieID = 1 },
-                new Stem { GebruikerID = 3, PollOptieID = 5 },
-                new Stem { GebruikerID = 4, PollOptieID = 5 }
-                );
+            //context.Stemmen.AddRange(
+            //    new Stem { GebruikerID = 1, PollOptieID = 2 },
+            //    new Stem { GebruikerID = 1, PollOptieID = 4 },
+            //    new Stem { GebruikerID = 2, PollOptieID = 2 },
+            //    new Stem { GebruikerID = 3, PollOptieID = 1 },
+            //    new Stem { GebruikerID = 3, PollOptieID = 5 },
+            //    new Stem { GebruikerID = 4, PollOptieID = 5 }
+            //    );
 
             context.Vrienden.AddRange(
+                new Vriend { VerzenderID=1, OntvangerID = 4, Bevestigd = true },
                 new Vriend { VerzenderID = 1, OntvangerID = 2, Bevestigd = true },
                 new Vriend { VerzenderID = 1, OntvangerID = 3, Bevestigd = true },
-                new Vriend { VerzenderID = 2, OntvangerID = 3, Bevestigd = false },
-                new Vriend { VerzenderID = 1, OntvangerID = 4, Bevestigd = false }
+                new Vriend { VerzenderID = 2, OntvangerID = 3, Bevestigd = true },
+                new Vriend { VerzenderID = 2, OntvangerID = 4, Bevestigd = true }
                 );
 
             context.SaveChanges();

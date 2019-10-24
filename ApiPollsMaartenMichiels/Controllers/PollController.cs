@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ApiPollsMaartenMichiels.Models;
+using ApiPollsMaartenMichiels.ViewModels;
 
 namespace ApiPollsMaartenMichiels.Controllers
 {
@@ -24,14 +25,14 @@ namespace ApiPollsMaartenMichiels.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Poll>>> Getpolls()
         {
-            return await _context.polls.ToListAsync();
+            return await _context.Polls.ToListAsync();
         }
 
         // GET: api/Poll/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Poll>> GetPoll(long id)
         {
-            var poll = await _context.polls.FindAsync(id);
+            var poll = await _context.Polls.FindAsync(id);
 
             if (poll == null)
             {
@@ -75,7 +76,7 @@ namespace ApiPollsMaartenMichiels.Controllers
         [HttpPost]
         public async Task<ActionResult<Poll>> PostPoll(Poll poll)
         {
-            _context.polls.Add(poll);
+            _context.Polls.Add(poll);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetPoll", new { id = poll.PollID }, poll);
@@ -85,21 +86,37 @@ namespace ApiPollsMaartenMichiels.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Poll>> DeletePoll(long id)
         {
-            var poll = await _context.polls.FindAsync(id);
+            var poll = await _context.Polls.FindAsync(id);
             if (poll == null)
             {
                 return NotFound();
             }
 
-            _context.polls.Remove(poll);
+            _context.Polls.Remove(poll);
             await _context.SaveChangesAsync();
 
             return poll;
         }
 
+        // GET: api/Poll/Pollresult/5
+        [HttpGet("PollresultViewModel/{id}")]
+        public async Task<ActionResult<PollresultViewModel>> GetPollresultViewModel(long id)
+        {
+            PollresultViewModel pollresultdVM = new PollresultViewModel();
+            Poll opgeevraagdePoll = await _context.Polls
+                .Include(p => p.PollOpties)
+                    .ThenInclude(p => p.Stemmen)
+                .Where(p => p.PollID == id)
+                .FirstOrDefaultAsync();
+
+            pollresultdVM.ResultaatOpgevraagdePoll = opgeevraagdePoll;
+
+            return pollresultdVM;
+        }
+
         private bool PollExists(long id)
         {
-            return _context.polls.Any(e => e.PollID == id);
+            return _context.Polls.Any(e => e.PollID == id);
         }
     }
 }

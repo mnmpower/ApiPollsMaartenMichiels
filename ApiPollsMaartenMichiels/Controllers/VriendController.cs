@@ -107,7 +107,7 @@ namespace ApiPollsMaartenMichiels.Controllers
             var VriendschapsverzoekenIn = from a in _context.Vrienden.Where(v => v.Bevestigd == false && v.OntvangerID == id)
                                             .Include(v => v.Verzender)
                                             .Include(d => d.Ontvanger)
-                                           select a;
+                                          select a;
             if (VriendschapsverzoekenIn == null)
             {
                 return NotFound();
@@ -120,10 +120,11 @@ namespace ApiPollsMaartenMichiels.Controllers
         [HttpGet("GetVriendschapsverzoekUit/{id}")]
         public async Task<ActionResult<IEnumerable<Vriend>>> GetVriendschapsverzoekUit(long id)
         {
-           
+
             var VriendschapsverzoekenUit = from a in _context.Vrienden.Where(v => v.Bevestigd == false && v.VerzenderID == id)
-                                           .Include(v =>v.Verzender)
-                                           .Include(d=>d.Ontvanger) select a;
+                                           .Include(v => v.Verzender)
+                                           .Include(d => d.Ontvanger)
+                                           select a;
 
             if (VriendschapsverzoekenUit == null)
             {
@@ -141,7 +142,7 @@ namespace ApiPollsMaartenMichiels.Controllers
             var Vrienden = from a in _context.Vrienden.Where(v => v.Bevestigd == true && (v.VerzenderID == id || v.OntvangerID == id))
                                            .Include(v => v.Verzender)
                                            .Include(d => d.Ontvanger)
-                                           select a;
+                           select a;
 
             if (Vrienden == null)
             {
@@ -157,8 +158,8 @@ namespace ApiPollsMaartenMichiels.Controllers
         {
 
             var Vrienden = from v in _context.Vrienden.Where(v => v.VerzenderID == id).Where(v => v.OntvangerID == id2) select v;
-            
-            if (Vrienden.Count() ==  1)
+
+            if (Vrienden.Count() == 1)
             {
                 return true;
             }

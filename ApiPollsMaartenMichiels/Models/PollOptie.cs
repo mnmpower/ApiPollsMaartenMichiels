@@ -8,8 +8,12 @@ namespace ApiPollsMaartenMichiels.Models
     public class PollOptie
     {
         public long PollOptieID { get; set; }
-        public String Antwoord { get; set; }
-        public long PollID { get; set; }
 
+        public long PollID { get; set; }
+        public String Antwoord { get; set; }
+
+
+        public virtual Poll Poll { get; set; }
+        public virtual ICollection<Stem> Stemmen { get; set; }
     }
 }

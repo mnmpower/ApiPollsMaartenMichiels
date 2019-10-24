@@ -41,6 +41,23 @@ namespace ApiPollsMaartenMichiels.Controllers
             return stem;
         }
 
+        // DELETE: api/Stem/DeleteGebruikers/5/5
+        [HttpDelete("DeleteGebruikers/{GebruikerID}")]
+        public async Task<ActionResult<Stem>> DeleteStemByGebruikerIDAndPollID(long GebruikerID, long pollOptieID)
+        {
+            var stem = await _context.Stemmen.Where(s => s.GebruikerID == GebruikerID && s.PollOptieID == pollOptieID).FirstOrDefaultAsync();
+
+            if (stem == null)
+            {
+                return NotFound();
+            }
+
+            _context.Stemmen.Remove(stem);
+            await _context.SaveChangesAsync();
+
+            return stem;
+        }
+
         // PUT: api/Stem/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutStem(long id, Stem stem)
@@ -75,9 +92,22 @@ namespace ApiPollsMaartenMichiels.Controllers
         [HttpPost]
         public async Task<ActionResult<Stem>> PostStem(Stem stem)
         {
-            _context.Stemmen.Add(stem);
-            await _context.SaveChangesAsync();
+            Boolean doorgaan = true;
+            List<Stem> alleStemmen = new List<Stem>();
+            alleStemmen = await _context.Stemmen.ToListAsync();
+            foreach (var bestaandeStem in alleStemmen)
+            {
+                if (bestaandeStem.GebruikerID == stem.GebruikerID && bestaandeStem.PollOptieID == stem.PollOptieID)
+                {
+                    doorgaan = false;
+                }
+            }
 
+            if (doorgaan)
+            {
+                _context.Stemmen.Add(stem);
+                await _context.SaveChangesAsync();
+            }
             return CreatedAtAction("GetStem", new { id = stem.StemID }, stem);
         }
 

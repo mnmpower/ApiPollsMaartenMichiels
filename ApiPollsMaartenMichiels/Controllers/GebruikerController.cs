@@ -48,7 +48,14 @@ namespace ApiPollsMaartenMichiels.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Gebruiker>> GetGebruiker(long id)
         {
-            var gebruiker = await _context.Gebruikers.FindAsync(id);
+            var gebruiker = await _context.Gebruikers
+                .Include(v => v.OntvangenVrienden)
+                    .ThenInclude(v => v.Ontvanger)
+                .Include(v => v.VerzondenVrienden)
+                 .ThenInclude(v => v.Verzender)
+                .FirstOrDefaultAsync( g => g.GebruikerID == id);
+
+          var e = gebruiker.VerzondenVrienden.FirstOrDefault().Ontvanger;
 
             if (gebruiker == null)
             {

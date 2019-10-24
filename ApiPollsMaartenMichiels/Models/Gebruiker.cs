@@ -17,8 +17,10 @@ namespace ApiPollsMaartenMichiels.Models
         [NotMapped]
         public string Token { get; set; }
         
-        public virtual ICollection<Vriend> vriendenlijstOnvangen { get; set; }
-        public virtual ICollection<Vriend> vriendenlijstVerzonden { get; set; }
+        public virtual ICollection<Vriend> VerzondenVrienden { get; set; }
+        public virtual ICollection<Vriend> OntvangenVrienden { get; set; }
+
+        public virtual ICollection<PollGebruiker> PollGebruikers { get; set; }
 
     }
 }
