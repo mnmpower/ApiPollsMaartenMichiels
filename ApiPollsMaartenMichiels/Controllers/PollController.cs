@@ -109,7 +109,7 @@ namespace ApiPollsMaartenMichiels.Controllers
                 .Where(p => p.PollID == id)
                 .FirstOrDefaultAsync();
 
-            pollresultdVM.ResultaatOpgevraagdePoll = opgeevraagdePoll;
+            pollresultdVM.resultaatOpgevraagdePoll = opgeevraagdePoll;
 
             return pollresultdVM;
         }

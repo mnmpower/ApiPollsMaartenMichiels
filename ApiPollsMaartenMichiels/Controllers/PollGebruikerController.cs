@@ -81,6 +81,26 @@ namespace ApiPollsMaartenMichiels.Controllers
             return CreatedAtAction("GetPollGebruiker", new { id = pollGebruiker.PollGebruikerID }, pollGebruiker);
         }
 
+        // POST: api/PollGebruiker
+        [HttpPost("AddPollGebruikers/{id}")]
+        public async Task<ActionResult<PollGebruiker>> AddPollGebruikers(long id, List<Gebruiker> Gebruikers)
+        {
+            PollGebruiker pgs = new PollGebruiker();
+            foreach (var gebruiker in Gebruikers)
+            {
+                PollGebruiker pg = new PollGebruiker();
+                pg.GebruikerID = gebruiker.GebruikerID;
+                pg.PollID = id;
+                _context.PollGebruikers.Add(pg);
+                await _context.SaveChangesAsync();
+            }
+
+
+
+
+            return pgs;
+        }
+
         // DELETE: api/PollGebruiker/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<PollGebruiker>> DeletePollGebruiker(long id)

@@ -38,7 +38,7 @@ namespace ApiPollsMaartenMichiels.Controllers
             {
                 foreach (var pg in poll.PollGebruikers)
                 {
-                    if (pg.GebruikerID == id )
+                    if (pg.PollID == pg.PollID && pg.GebruikerID ==id)
                     {
                         uitgenodigdePolls.Add(poll);
                     }

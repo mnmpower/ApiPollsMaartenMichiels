@@ -111,6 +111,40 @@ namespace ApiPollsMaartenMichiels.Controllers
             return CreatedAtAction("GetStem", new { id = stem.StemID }, stem);
         }
 
+
+        // POST: api/Stem/voegStemmenToe
+        [HttpPost("voegStemmenToe/{id}")]
+        public async Task<ActionResult<IEnumerable<Stem>>> VoegStemmenToe(long gebruikerID ,List<Stem> stemmen)
+        {
+            
+            List<Stem> alleStemmen = new List<Stem>();
+            List<Stem> returnStemmen = new List<Stem>();
+            alleStemmen = await _context.Stemmen.ToListAsync();
+            
+            foreach (var stem in stemmen)
+            {
+                Boolean doorgaan = true;
+                foreach (var bestaandeStem in alleStemmen)
+                {
+                    if (bestaandeStem.GebruikerID == stem.GebruikerID && bestaandeStem.PollOptieID == stem.PollOptieID)
+                    {
+                       doorgaan = false;
+                    }
+                }
+                if (doorgaan)
+                {
+                    _context.Stemmen.Add(stem);
+                    await _context.SaveChangesAsync();
+
+                    returnStemmen.Add(stem);
+                }
+            }
+
+            return returnStemmen;
+            
+            
+        }
+
         // DELETE: api/Stem/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Stem>> DeleteStem(long id)

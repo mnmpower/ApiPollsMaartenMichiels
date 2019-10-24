@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ApiPollsMaartenMichiels.Models;
+using ApiPollsMaartenMichiels.ViewModels;
 using ApiPollsMaartenMichiels.Services;
 using Microsoft.AspNetCore.Authorization;
 using System.Collections;
@@ -140,38 +141,13 @@ namespace ApiPollsMaartenMichiels.Controllers
         {
 
             var alleGebruikers = from a in _context.Gebruikers.Where(g => g.Gebruikersnaam.Contains(zoekstring)) select a;
-            //var alleVrienden = _context.Vrienden.ToList();
-            //var lijstTeReturning = new List<Gebruiker>();
-            
-            //foreach (var g in alleGebruikers)
-            //{
-            //    Vriend check = new Vriend();
-            //    check.OntvangerID = zoekerID;
-            //    check.VerzenderID = g.GebruikerID;
-            //    check.Bevestigd = true;
-
-            //    if (!alleVrienden.Contains(check))
-            //    {
-            //        Vriend check2 = new Vriend();
-            //        check2.OntvangerID = g.GebruikerID;
-            //        check2.VerzenderID = zoekerID;
-            //        check2.Bevestigd = true;
-            //        if (!alleVrienden.Contains(check2))
-            //        {
-            //            lijstTeReturning.Add(g);
-            //        }
-            //    }
-            //}
-
-
-
-
+           
             alleGebruikers = alleGebruikers.Where(a => a.GebruikerID != zoekerID);
             //lijstTeReturning = lijstTeReturning.Where(g => g.GebruikerID != zoekerID).ToList();
 
             return await alleGebruikers.ToListAsync();
         }
-
+        
         private bool GebruikerExists(long id)
         {
             return _context.Gebruikers.Any(e => e.GebruikerID == id);

@@ -9,6 +9,6 @@ namespace ApiPollsMaartenMichiels.ViewModels
     public class PollresultViewModel
     {
 
-        public Poll ResultaatOpgevraagdePoll { get; set; }
+        public Poll resultaatOpgevraagdePoll { get; set; }
     }
 }
