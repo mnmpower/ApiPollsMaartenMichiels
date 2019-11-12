@@ -117,6 +117,25 @@ namespace ApiPollsMaartenMichiels.Controllers
             return pollGebruiker;
         }
 
+        // DELETE: api/PollGebruiker/DeletePG/5
+        [HttpDelete("DeletePG/{id}")]
+        public async Task<ActionResult<PollGebruiker>> DeletePG(long id, long id2)
+        {
+            PollGebruiker pollGebruiker = new PollGebruiker();
+
+            pollGebruiker = _context.PollGebruikers.Where(p => p.PollID == id).Where(p => p.GebruikerID == id2).FirstOrDefault();
+
+            if (pollGebruiker == null)
+            {
+                return NotFound();
+            }
+
+            _context.PollGebruikers.Remove(pollGebruiker);
+            await _context.SaveChangesAsync();
+
+            return pollGebruiker;
+        }
+
         private bool PollGebruikerExists(long id)
         {
             return _context.PollGebruikers.Any(e => e.PollGebruikerID == id);

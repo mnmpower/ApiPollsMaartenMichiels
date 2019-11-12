@@ -66,6 +66,22 @@ namespace ApiPollsMaartenMichiels.Controllers
             return gebruiker;
         }
 
+        // GET: api/Gebruiker/checkUsername/mnmpower
+        [HttpGet("checkUsername/{naam}")]
+        public async Task<ActionResult<Boolean>> checkUsername(string naam)
+        {
+            var gebruiker = await _context.Gebruikers
+                .FirstOrDefaultAsync(g => g.Gebruikersnaam == naam);
+            
+            if (gebruiker == null)
+            {
+                //bestaat niet
+                return false;
+            }
+            //bestaat wel
+            return true;
+        }
+
         // PUT: api/Gebruiker/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutGebruiker(long id, Gebruiker gebruiker)

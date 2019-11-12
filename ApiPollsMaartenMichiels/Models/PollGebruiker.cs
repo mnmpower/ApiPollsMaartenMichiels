@@ -14,8 +14,8 @@ namespace ApiPollsMaartenMichiels.Models
 
         public bool Beheerder { get; set; }
 
-        public virtual Gebruiker Gebruiker { get; set; }
-        public virtual Poll Poll { get; set; }
+        public Gebruiker Gebruiker { get; set; }
+        public Poll Poll { get; set; }
 
 
 

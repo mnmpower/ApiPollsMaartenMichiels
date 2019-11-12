@@ -28,6 +28,7 @@ namespace ApiPollsMaartenMichiels.Controllers
 
             Poll poll = await _context.Polls.Where(p => p.PollID == id)
                 .Include(p => p.PollGebruikers)
+                    .ThenInclude(p => p.Gebruiker)
                 .Include(p => p.PollOpties)
                 .FirstOrDefaultAsync();
 
